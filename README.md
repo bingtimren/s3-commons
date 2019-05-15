@@ -8,23 +8,22 @@ Common helper functions to make using AWS S3 service easier
 const AWS = require('aws-sdk')
 const s3 = new AWS.S3()
 const s3c = require('s3-commons')
-await s3c.deleteRecursive(s3, 'your-bucket','/folder/to/empty')
+const count = await s3c.deleteRecursive(
+    s3, 
+    'your-bucket',
+    '/folder/to/empty')
+const list = await s3c.deleteRecursiveVerbose(
+    s3, 
+    'your-bucket',
+    '/folder/to/empty')
 ```
 
-## deleteRecursive
-Definition:
+## deleteRecursive & deleteRecursiveVerbose
+Both async functions delete objects recursively under a dir (or "prefix" according to S3) and returns a Promise (as all async functions do).
 
-```Typescript
-async function deleteRecursive(s3: AWS.S3, bucket: string, dir: string, returnList: boolean = false): Promise<number | string[]
-```
+The Promise from deleteRecursive resolves to a number that is count of deleted keys. The Promise from deleteRecursiveVerbose resolves to an array of string that is array of deleted keys
 
 Parameters:
 - s3: the S3 service instance
 - bucket: string, bucket name
 - dir: string, the path prefix
-- returnList: boolean, default false to only return the count of deleted objects, if true return a list of deleted keys
-
-Returns: depending on parameter 'returnList', either return a number that is count of deleted keys, or an array of string that is array of deleted keys
-
-
-
